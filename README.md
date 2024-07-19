@@ -9,6 +9,7 @@ Decided to bounce off of https://github.com/emmaunel/DiscordGo.git and modify it
 # Installation
 
 To use DiscordGo, you need to create a Discord bot and a Discord server. After that, invite the bot to your server.
+I also found that a discord c2 would be kinda funny as well.
 
 Click [here](https://support.discord.com/hc/en-us/articles/204849977-How-do-I-create-a-server-) to learn how to create a server and [here](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot) to create a bot. And finally, learn to invite the bot to your server with [this.](https://discordjs.guide/preparations/adding-your-bot-to-servers.html#bot-invite-links)
 
