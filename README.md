@@ -1,7 +1,5 @@
 Discord Botnet :)
 
-Not to be confused with DiscordGo library which I use for the backend.
-
 # Why ?
 
 Decided to bounce off of https://github.com/emmaunel/DiscordGo.git and modify it into something similar that fits my specific needs.
