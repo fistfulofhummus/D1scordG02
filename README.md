@@ -5,12 +5,6 @@
   </a>
 </p>
 
-![Version](https://img.shields.io/badge/Version-2.0-brightgreen)
-![Language](https://img.shields.io/badge/Language-Go-blue.svg?longCache=true&style=flat-square)
-[![Go Report Card](https://goreportcard.com/badge/github.com/emmaunel/DiscordGo)](https://goreportcard.com/report/github.com/emmaunel/DiscordGo)
-![nil](https://img.shields.io/badge/nil-goated-green)
-
-
 Discord C2 for Redteam engagement....Need a better name.
 If you can think of one, please tell me. :)
 
