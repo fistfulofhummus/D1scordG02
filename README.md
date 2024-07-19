@@ -48,12 +48,6 @@ To start the organizer bot: `go run cmd/organizer/main.go -f <csv_filename>.csv`
 
 Run `clean` in any channel to organize bots into their respective categories.
 
-# Feature
-
-* Cross-platform
-* Organizer(talk about and intergration to pwnboard)
-
-
 # WIP (Work in Progress)
 
 - [x] Use windows syscalls
