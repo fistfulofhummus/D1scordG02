@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"reflect"
+	"strings"
 )
 
 // RemoveDuplicatesValues: A helper function to remove duplicate items in a list
@@ -65,6 +66,26 @@ func DownloadFile(filepath string, url string) error {
 	// Write the body to file
 	_, err = io.Copy(out, resp.Body)
 	return err
+}
+
+func SendGET(url string) int {
+	resp, err := http.Get(url)
+	if err != nil {
+		return -1
+	}
+	return resp.StatusCode
+}
+
+func sendPOST(url string, payload string) int {
+	resp, err := http.Post(url, "application/x-www-form-urlencoded", strings.NewReader(payload))
+	if err != nil {
+		return 2
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		return 0
+	}
+	return 1
 }
 
 func UpdateStats([]int) {

