@@ -52,6 +52,7 @@ Run `clean` in any channel to organize bots into their respective categories.
 
 - [x] Use windows syscalls
 - [x] DDOS capability (GET and POST)
+- [x] Encrypted File Transfer
 - [ ] Dumping LSASS
 - [ ] Keylogging
 
