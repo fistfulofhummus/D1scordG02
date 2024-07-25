@@ -27,6 +27,20 @@ The bot token can be found on discord developer dashboard where you created the 
 
 After that is done, all you have to do is run `make`. This will create binaries in the /bin folder. The windows binary is built with garble and normally as well for the sake of variety.
 
+Setup a webserver where you will host the cfg.json file containing the Bot Token, Server ID and an AES encryption key hex encoded. A program for generating an AES key is not provided as I think that is simple enough.
+
+You will also need to write a program that decrypts transferred files as well with your AES key.
+
+The JSON file should look like so:
+
+```
+{
+  "BK":"BOT_TOKEN",
+  "SK":"SERVER_ID",
+  "AesKey":"YOUR_GENERATED_KEY"
+}
+```
+
 ## Organizer Bot
 
 When you have target connecting back to your discord server, channels are created by their ip addresses. This can quickly get hard to manage. Solution: Another bot to organize the targets channels.
